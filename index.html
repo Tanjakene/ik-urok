@@ -93,13 +93,13 @@ h2.u{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
 .listen{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .listen .lbl{font-family:var(--fh);font-size:1.3rem}
 
-/* кнопка-фраза */
+/* кнопка-фраза (показывает схему голоса) */
 .phr{display:inline-flex;align-items:center;gap:8px;font-family:var(--fb);font-weight:600;font-size:.94rem;background:#fff;color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;box-shadow:3px 3px 0 rgba(36,20,72,.18);transition:.15s}
 .phr:hover{transform:translate(-1px,-2px);box-shadow:5px 6px 0 rgba(36,20,72,.22)}
 .phr:active{transform:translate(2px,2px);box-shadow:0 0 0 rgba(0,0,0,0)}
 .phr .ic{font-size:.85rem}
-.phr.speaking{background:var(--c,var(--yellow));color:#fff;animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(36,20,72,.35)}50%{box-shadow:0 0 0 9px rgba(36,20,72,0)}}
+.phr.tap{animation:pop .4s}
+@keyframes pop{from{transform:scale(.6);opacity:.4}}
 
 /* ===== героини ===== */
 .heroes{background:linear-gradient(180deg,#E9F3FF,#F4FAFF);border-bottom:4px solid var(--ink)}
@@ -124,11 +124,6 @@ h2.u{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
 .side{border:2.5px solid var(--ink);border-radius:16px;padding:14px;background:var(--tint);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
 .side .who{font-family:var(--fd);font-size:.78rem;background:var(--c);color:#fff;border:2px solid var(--ink);padding:4px 9px;border-radius:9px}
 .side small{font-weight:600}
-.voice{display:flex;gap:24px;flex-wrap:wrap;align-items:center;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:14px 20px;box-shadow:6px 6px 0 rgba(36,20,72,.15);margin-top:28px}
-.voice b{font-size:.95rem}
-.voice label{font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:10px}
-.voice input[type=range]{accent-color:var(--pink);width:130px}
-.voice small{color:rgba(36,20,72,.7);font-size:.82rem}
 
 /* ===== тренажёр ===== */
 .trainer{background:#E4FBE9;border-bottom:4px solid var(--ink)}
@@ -138,7 +133,6 @@ h2.u{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
 .sort-chip:hover{transform:translateY(-3px)}
 .sort-chip.sel{background:var(--yellow);transform:scale(1.06) rotate(-1.5deg);box-shadow:0 0 0 4px rgba(36,20,72,.18)}
 .sort-chip.done{opacity:.35;pointer-events:none;text-decoration:line-through}
-.sc-say{cursor:pointer;font-size:.85rem}
 .bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:24px}
 .bin{border:3px solid var(--ink);border-radius:18px;background:#fff;min-height:112px;padding:12px;display:flex;flex-direction:column;gap:7px;transition:.15s;cursor:pointer}
 .bin:hover{transform:translateY(-4px);background:var(--tint)}
@@ -147,7 +141,6 @@ h2.u{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
 .bh{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.83rem;flex-wrap:wrap}
 .bn{font-family:var(--fd);background:var(--c);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;font-size:.78rem}
 .mini{font-size:.78rem;font-weight:600;background:var(--tint);border:2px solid var(--ink);border-radius:8px;padding:3px 8px;animation:pop .35s}
-@keyframes pop{from{transform:scale(.4);opacity:0}}
 .trainer-msg{font-family:var(--fh);font-size:1.5rem;min-height:1.7em;margin:16px 0 4px}
 .t-progress{font-weight:800;margin-top:12px}
 
@@ -238,12 +231,12 @@ footer p{margin:6px auto;max-width:640px;font-size:.9rem;line-height:1.5;color:r
     <div>
       <span class="kicker">Интерактивный урок · РКИ · 7 интонаций</span>
       <h1>Сказка об <span class="hl hl-p">интонационных</span> <span class="hl hl-b">конструкциях</span></h1>
-      <p class="lead">В одном учебнике русского языка для иностранцев жили-были семь интонаций: ИК-1, ИК-2, ИК-3, ИК-4, ИК-5, ИК-6 и ИК-7. Познакомься с ними, послушай их голоса и научись слышать русскую интонацию!</p>
+      <p class="lead">В одном учебнике русского языка для иностранцев жили-были семь интонаций: ИК-1, ИК-2, ИК-3, ИК-4, ИК-5, ИК-6 и ИК-7. Познакомься с ними и научись видеть русскую интонацию!</p>
       <div class="cta-row">
         <a class="btn-big" href="#skazka">📖 Читать сказку</a>
         <a class="btn-big alt" href="#quiz">🎯 Сразу к викторине</a>
       </div>
-      <span class="scribble">🔊 включи звук — будет веселее!</span>
+      <span class="scribble">〰️ нажимай на фразы — увидишь, как движется голос!</span>
     </div>
     <div class="stage">
       <div class="stage-cap">На сцене — семь героинь:</div>
@@ -259,7 +252,7 @@ footer p{margin:6px auto;max-width:640px;font-size:.9rem;line-height:1.5;color:r
     <div class="sec-head">
       <span class="kicker">Глава 1</span>
       <h2 class="u">Сказка о семи интонациях</h2>
-      <p class="sec-note">Читай и нажимай на фразы 🔊 — они зазвучат! Линия в рамке показывает, как движется голос: вверх ↗ и вниз ↘.</p>
+      <p class="sec-note">Читай и нажимай на фразы 〰️ — схема покажет, как движется голос: вверх ↗ и вниз ↘.</p>
     </div>
     <div id="story"></div>
   </div>
@@ -271,7 +264,7 @@ footer p{margin:6px auto;max-width:640px;font-size:.9rem;line-height:1.5;color:r
     <div class="sec-head">
       <span class="kicker">Глава 2</span>
       <h2 class="u">Знакомьтесь: семь героинь</h2>
-      <p class="sec-note">● — интонационный центр (ударный слог). Нажми на фразу и послушай характер каждой ИК.</p>
+      <p class="sec-note">● — интонационный центр (ударный слог). Нажми на фразу — схема голоса «оживёт».</p>
     </div>
     <div class="heroes-grid" id="heroesGrid"></div>
   </div>
@@ -283,15 +276,9 @@ footer p{margin:6px auto;max-width:640px;font-size:.9rem;line-height:1.5;color:r
     <div class="sec-head">
       <span class="kicker">Тонкости</span>
       <h2 class="u">Одна фраза — две интонации</h2>
-      <p class="sec-note">Слова одинаковые, а звучание и смысл — разные. Послушай обе!</p>
+      <p class="sec-note">Слова одинаковые, а движение голоса — разное. Нажми на фразу и сравни схемы!</p>
     </div>
     <div class="cmp-grid" id="cmpGrid"></div>
-    <div class="voice rv">
-      <b>🎛️ Настройка голоса:</b>
-      <label>Темп <input type="range" id="vRate" min="0.6" max="1.4" step="0.05" value="1"> <span id="vRateV">1.0</span></label>
-      <label>Тон <input type="range" id="vPitch" min="0.6" max="1.4" step="0.05" value="1"> <span id="vPitchV">1.0</span></label>
-      <small>Звук — синтез речи браузера, лучше всего в Chrome с русским голосом.</small>
-    </div>
   </div>
 </section>
 
@@ -302,7 +289,7 @@ footer p{margin:6px auto;max-width:640px;font-size:.9rem;line-height:1.5;color:r
       <span class="kicker">Глава 3 · игра</span>
       <h2 class="u">Рассели фразы по домикам</h2>
     </div>
-    <p class="how">Как играть: нажми на фразу → потом на домик-интонацию, где она живёт. 🔊 подскажет звучанием!</p>
+    <p class="how">Как играть: нажми на фразу → потом на домик-интонацию, где она живёт!</p>
     <div class="pool" id="pool"></div>
     <div class="bins" id="bins"></div>
     <div class="trainer-msg" id="tMsg"></div>
@@ -350,7 +337,7 @@ footer p{margin:6px auto;max-width:640px;font-size:.9rem;line-height:1.5;color:r
     </div>
     <div class="cheat-wrap rv">
       <table class="cheat">
-        <thead><tr><th>ИК</th><th>Характер</th><th>Когда используем</th><th>Пример</th><th>Схема тона</th></tr></thead>
+        <thead><tr><th>ИК</th><th>Характер</th><th>Когда используем</th><th>Пример (нажми — схема оживёт)</th><th>Схема тона</th></tr></thead>
         <tbody id="cheatBody"></tbody>
       </table>
     </div>
@@ -358,9 +345,9 @@ footer p{margin:6px auto;max-width:640px;font-size:.9rem;line-height:1.5;color:r
 </section>
 
 <footer>
-  <div class="fz">🔵 🟠 🟢 🟣 🩷 🩵 🔴</div>
-  <p><b>Семь интонаций — семь характеров.</b> Слушай, повторяй и говори по-русски выразительно!</p>
-  <p>По мотивам «Сказки об интонационных конструкциях» из учебника русского языка для иностранцев. Озвучка — синтез речи браузера.</p>
+  <div class="fz">🔵 🟠 🟢 🟣 🩷  🔴</div>
+  <p><b>Семь интонаций — семь характеров.</b> Смотри схемы, повторяй вслух и говори по-русски выразительно!</p>
+  <p>По мотивам «Сказки об интонационных конструкциях» из учебника русского языка для иностранцев.</p>
 </footer>
 
 <script>
@@ -368,31 +355,31 @@ footer p{margin:6px auto;max-width:640px;font-size:.9rem;line-height:1.5;color:r
 const HEROES={
 1:{c:'#2D6BFF',t:'#E7EEFF',e:'😌',name:'Рассказчица',tag:'Сообщение',key:'спокойно сообщает, называет',
  desc:'Всё знала, утверждала и называла. Говорит ровно, спокойно, голос в конце идёт вниз — как точка.',
- ph:['Это гараж.','Это наш подъезд.'],tts:{p:1,r:.95},
+ ph:['Это гараж.','Это наш подъезд.'],
  d:'M8,34 L72,34 Q84,34 92,50 L100,60 L192,60',dot:[92,50]},
 2:{c:'#FF7A00',t:'#FFF0DE',e:'📣',name:'Командирша',tag:'Обращение и вопрос со словом',key:'обращается, требует, спрашивает «Что? Где? Когда?»',
  desc:'Важная и категоричная: обращается ко всем, требует и задаёт вопросы с вопросительными словами. Голос резко падает на ударном слове.',
- ph:['Послушайте! Внимание!','Отойдите! Не мешайте!','Что? Где? Когда?'],tts:{p:1.15,r:1.05},
+ ph:['Послушайте! Внимание!','Отойдите! Не мешайте!','Что? Где? Когда?'],
  d:'M8,28 L56,28 Q66,28 74,46 L82,66 L192,66',dot:[74,46]},
 3:{c:'#00B26B',t:'#E2F8EC',e:'🌷',name:'Вежливая',tag:'Вопрос без вопросительного слова',key:'вежливый вопрос «да / нет»',
  desc:'Любознательная, мягкая и очень вежливая. Вопросы без вопросительных слов: голос взлетает на важном слове — и мягко вниз.',
- ph:['Это гараж?','Это ваш подъезд?','Извините, пожалуйста!'],tts:{p:1.25,r:.98},
+ ph:['Это гараж?','Это ваш подъезд?','Извините, пожалуйста!'],
  d:'M8,42 L62,42 Q74,42 82,20 L88,22 Q100,40 112,56 L192,56',dot:[82,20]},
 4:{c:'#8A4DFF',t:'#F1E9FF',e:'🧐',name:'Чиновница',tag:'Официальный вопрос',key:'официальная речь: анкета, документ, экзамен',
  desc:'Приходит вместо ИК-3 в официальную речь: поучает и задаёт вопросы официальным тоном. Голос поднимается и держится высоко.',
- ph:['Ваша фамилия?','Ваше имя?','Дважды два четыре?'],tts:{p:.9,r:.85},
+ ph:['Ваша фамилия?','Ваше имя?','Дважды два четыре?'],
  d:'M8,46 L60,46 Q72,46 82,30 L120,22 L192,16',dot:[188,16]},
 5:{c:'#FF4FA0',t:'#FFE8F3',e:'🤩',name:'Восторженная',tag:'Восхищение',key:'радость, восторг',
  desc:'Самая восторженная! Две вершины: голос взлетает, чуть опускается — и взлетает снова.',
- ph:['Как хорошо!'],tts:{p:1.35,r:1},
+ ph:['Как хорошо!'],
  d:'M8,58 Q42,14 76,24 Q98,30 118,14 Q152,26 192,58',dot:[118,14]},
 6:{c:'#00B8C4',t:'#E0F8FA',e:'🤔',name:'Сомневающаяся',tag:'Сомнение, переспрос, воспоминание',key:'сомневается, переспрашивает, вспоминает',
  desc:'Восхищается сдержанно, часто сомневается, переспрашивает и вспоминает. Голос поднимается — и долго держится наверху.',
- ph:['Как хорошо! Погода сегодня!','Что вы сказали?','Куда я положила ключи?'],tts:{p:1.1,r:.9},
+ ph:['Как хорошо! Погода сегодня!','Что вы сказали?','Куда я положила ключи?'],
  d:'M8,54 Q46,20 88,22 L192,18',dot:[88,22]},
 7:{c:'#F23547',t:'#FFE5E7',e:'😤',name:'Недовольная',tag:'Отрицание и экспрессия',key:'возмущение, отрицание, эмоциональное «да!»',
  desc:'Ужасный характер: вечно недовольна и всё отрицает. Но иногда ей стыдно — и она эмоционально утверждает! Голос взмывает выше всех.',
- ph:['Какие вы отличники!','Какой это обед!','Да! Хорошо!'],tts:{p:.85,r:1.05},
+ ph:['Какие вы отличники!','Какой это обед!','Да! Хорошо!'],
  d:'M8,46 L56,46 Q64,46 70,14 L78,10 Q90,14 102,28 L192,36',dot:[78,10]}
 };
 const BIN_LABEL={1:'Сообщение',2:'Приказ и «Где?»',3:'Вежливый вопрос',4:'Официально',5:'Ура!',6:'Хм… переспрошу',7:'Нет же!'};
@@ -447,30 +434,10 @@ const QUESTIONS=[
 /* ================= УТИЛИТЫ ================= */
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
-const synth=window.speechSynthesis||null;
-let voice=null;
-function loadVoices(){if(!synth)return;const vs=synth.getVoices();voice=vs.find(v=>/^ru/i.test(v.lang))||null;}
-if(synth){loadVoices();synth.onvoiceschanged=loadVoices;}
-const VOL={rate:1,pitch:1};
 
 let stars=0;
 function addStar(n=1){stars+=n;$('#starsN').textContent=stars;
  const b=$('#starsBadge');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}
-
-function speak(text,n,el){
- if(!synth){if(el){el.classList.add('speaking');setTimeout(()=>el.classList.remove('speaking'),1400);}return;}
- synth.cancel();
- const u=new SpeechSynthesisUtterance(text);
- u.lang='ru-RU';if(voice)u.voice=voice;
- const t=HEROES[n]?HEROES[n].tts:{p:1,r:1};
- u.rate=Math.min(2,Math.max(.4,t.r*VOL.rate));
- u.pitch=Math.min(2,Math.max(.3,(t.p||1)*VOL.pitch));
- if(el){el.classList.add('speaking');
-   u.onend=()=>el.classList.remove('speaking');
-   u.onerror=()=>el.classList.remove('speaking');
-   setTimeout(()=>el.classList.remove('speaking'),7000);}
- synth.speak(u);
-}
 
 function confetti(n=80,rect){
  const colors=['#FFD52E','#FF7A00','#00B26B','#2D6BFF','#8A4DFF','#FF4FA0','#00B8C4','#F23547'];
@@ -492,13 +459,14 @@ function playContour(scope){
  try{const L=p.getTotalLength();p.style.strokeDasharray=L;
   p.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:1200,easing:'ease-in-out'});}catch(e){}
 }
-function phrBtn(t,n){return `<button class="phr" style="--c:${HEROES[n].c}" data-say="${t}" data-n="${n}"><span class="ic">🔊</span>${t}</button>`;}
+function phrBtn(t,n){return `<button class="phr" style="--c:${HEROES[n].c}" data-ik="${n}" title="Показать движение голоса"><span class="ic">〰️</span>${t}</button>`;}
 
-/* клик по любой озвученной фразе */
+/* клик по фразе = ожившая схема голоса (без звука) */
 document.addEventListener('click',e=>{
- const b=e.target.closest('[data-say]');if(!b||b.classList.contains('sort-chip'))return;
- speak(b.dataset.say,+b.dataset.n,b);
- playContour(b.closest('.story, .hcard, .side'));
+ const b=e.target.closest('[data-ik]');if(!b)return;
+ const scope=b.closest('.story, .hcard, .side, tr');
+ playContour(scope);
+ b.classList.remove('tap');void b.offsetWidth;b.classList.add('tap');
 });
 
 /* ================= ЗАСТАВКА ================= */
@@ -526,7 +494,7 @@ document.addEventListener('click',e=>{
       <h3>ИК-${s.n} · ${h.name}</h3>
       <p>${s.text}</p>
       <div class="contour" style="--c:${h.c}">${contourSVG(s.n)}<p class="c-cap">линия — движение голоса: ↗ взлёт, ↘ падение, ● — центр</p></div>
-      <div class="listen"><span class="lbl">послушай →</span>${s.short.map(p=>phrBtn(p,s.n)).join('')}</div>
+      <div class="listen"><span class="lbl">как движется голос →</span>${s.short.map(p=>phrBtn(p,s.n)).join('')}</div>
     </div>
   </article>`);
  });
@@ -571,9 +539,9 @@ function renderTrainer(){
  doneCount=0;sortSel=null;$('#tDone').textContent=0;$('#tMsg').textContent='';
  const pool=$('#pool'),bins=$('#bins');pool.innerHTML='';bins.innerHTML='';
  $('#tTotal').textContent=SORTS.length;
- shuffle(SORTS).forEach((s,i)=>{
+ shuffle(SORTS).forEach(s=>{
   pool.insertAdjacentHTML('beforeend',
-  `<button class="sort-chip" data-k="${s.k}" data-t="${s.t}"><span class="sc-say" data-say="${s.t}" data-n="${s.k}">🔊</span>${s.t}</button>`);});
+  `<button class="sort-chip" data-k="${s.k}" data-t="${s.t}">${s.t}</button>`);});
  Object.keys(HEROES).forEach(n=>{const h=HEROES[n];
   bins.insertAdjacentHTML('beforeend',
   `<div class="bin" data-k="${n}" style="--c:${h.c};--tint:${h.t}">
@@ -581,8 +549,6 @@ function renderTrainer(){
    </div>`);});
 }
 $('#pool').addEventListener('click',e=>{
- const sp=e.target.closest('.sc-say');
- if(sp){e.stopPropagation();speak(sp.dataset.say,+sp.dataset.n,sp);return;}
  const ch=e.target.closest('.sort-chip');
  if(ch&&!ch.classList.contains('done')){
   $$('.sort-chip').forEach(c=>c.classList.remove('sel'));
@@ -595,7 +561,6 @@ $('#bins').addEventListener('click',e=>{
  const k=+bin.dataset.k,need=+sortSel.dataset.k;
  if(k===need){
   bin.insertAdjacentHTML('beforeend',`<span class="mini" style="--tint:${HEROES[k].t}">${sortSel.dataset.t}</span>`);
-  speak(sortSel.dataset.t,k);
   sortSel.classList.add('done');sortSel.classList.remove('sel');
   addStar();doneCount++;confetti(12,bin.getBoundingClientRect());
   sortSel=null;$('#tDone').textContent=doneCount;
@@ -638,7 +603,6 @@ $('#qOpts').addEventListener('click',e=>{
  const fb=$('#qFb');fb.hidden=false;fb.classList.toggle('wrong',!ok);
  if(ok){qScore++;$('#qScoreN').textContent=qScore;addStar();
   confetti(24,b.getBoundingClientRect());
-  const m=q.q.match(/«([^»]+)»/);if(m)speak(m[1],q.a);
   fb.innerHTML=`✅ Верно! ИК-${q.a} — ${explain(q.a)}`;
  }else{
   fb.innerHTML=`❌ Не совсем. Правильный ответ — <b>ИК-${q.a}</b>. ${explain(q.a)}`;
@@ -654,9 +618,9 @@ $('#qNext').addEventListener('click',()=>{
   $('#rTitle').textContent=qScore+' из '+qList.length;
   let txt;
   if(qScore===qList.length)txt='Идеально! Ты чувствуешь интонацию как настоящая ИК! 🎉';
-  else if(qScore>=6)txt='Отлично! Ещё чуть-чуть — и будет идеально. Послушай героинь и попробуй снова!';
-  else if(qScore>=4)txt='Хорошее начало! Перечитай сказку, послушай фразы и сыграй ещё раз.';
-  else txt='Не расстраивайся! Вернись к сказке, послушай голоса семи героинь — и всё получится.';
+  else if(qScore>=6)txt='Отлично! Ещё чуть-чуть — и будет идеально. Посмотри схемы героинь и попробуй снова!';
+  else if(qScore>=4)txt='Хорошее начало! Перечитай сказку, посмотри схемы голоса и сыграй ещё раз.';
+  else txt='Не расстраивайся! Вернись к сказке, изучи схемы семи героинь — и всё получится.';
   $('#rText').textContent=txt;
   if(qScore>=6)confetti(140);
  }else renderQ();
@@ -677,10 +641,6 @@ startQuiz();
     <td><div class="mini-c" style="--c:${h.c}">${contourSVG(n)}</div></td>
   </tr>`);});
 })();
-
-/* ================= настройка голоса ================= */
-$('#vRate').addEventListener('input',e=>{VOL.rate=+e.target.value;$('#vRateV').textContent=VOL.rate.toFixed(2);});
-$('#vPitch').addEventListener('input',e=>{VOL.pitch=+e.target.value;$('#vPitchV').textContent=VOL.pitch.toFixed(2);});
 
 /* ================= появление при скролле ================= */
 const io=new IntersectionObserver(es=>es.forEach(en=>{

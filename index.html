@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сказка об интонационных конструкциях — интерактивный урок</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Rubik:wght@400;500;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#241448; --paper:#FFFDF2;
+  --yellow:#FFD52E; --orange:#FF7A00; --pink:#FF4FA0; --blue:#2D6BFF;
+  --green:#00B26B; --purple:#8A4DFF; --teal:#00B8C4; --red:#F23547;
+  --fd:'Unbounded',sans-serif; --fb:'Rubik',sans-serif; --fh:'Caveat',cursive;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--fb);color:var(--ink);background:var(--paper);overflow-x:hidden}
+section{position:relative;z-index:1;scroll-margin-top:80px}
+h1,h2,h3{font-family:var(--fd)}
+
+/* ===== плавающие символы фона ===== */
+.floaties{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.floaties span{position:absolute;font-weight:900;opacity:.14;animation:drift 12s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateY(0) rotate(-8deg)}to{transform:translateY(-46px) rotate(10deg)}}
+
+/* ===== навигация ===== */
+.nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:10px 22px;background:rgba(255,253,242,.88);backdrop-filter:blur(8px);border-bottom:3px solid var(--ink)}
+.logo{font-family:var(--fd);font-weight:900;font-size:1rem;display:flex;gap:10px;align-items:center;white-space:nowrap}
+.logo .note{display:inline-grid;place-items:center;width:36px;height:36px;border:3px solid var(--ink);border-radius:12px 12px 12px 4px;background:var(--yellow);box-shadow:3px 3px 0 var(--ink);font-size:1.1rem}
+.links{display:flex;gap:4px;flex-wrap:wrap}
+.links a{font-weight:700;color:var(--ink);text-decoration:none;padding:6px 10px;border-radius:10px;font-size:.92rem;transition:.15s}
+.links a:hover{background:var(--yellow);transform:rotate(-2deg)}
+.stars-badge{margin-left:auto;display:flex;align-items:center;gap:6px;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:5px 14px;font-weight:800;box-shadow:3px 3px 0 rgba(36,20,72,.25)}
+.stars-badge.bump{animation:bump .4s}
+@keyframes bump{50%{transform:scale(1.25) rotate(-6deg)}}
+
+/* ===== сцена-заставка ===== */
+.scene{overflow:hidden;border-bottom:4px solid var(--ink);background:linear-gradient(160deg,#FFE85A 0%,#FFC93D 40%,#FF9A3D 100%);padding:64px 22px 90px}
+.scene::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(36,20,72,.09) 1.6px,transparent 1.6px);background-size:24px 24px;pointer-events:none}
+.scene-inner{max-width:1150px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center;position:relative}
+.kicker{display:inline-block;font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;border:2.5px solid var(--ink);background:#fff;padding:5px 13px;border-radius:999px;box-shadow:3px 3px 0 rgba(36,20,72,.25);margin-bottom:16px}
+.scene h1{font-weight:900;font-size:clamp(2rem,5.2vw,3.9rem);line-height:1.08;margin:0 0 18px}
+.hl{display:inline-block;color:#fff;padding:0 12px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.hl-p{background:var(--pink);transform:rotate(-1.6deg);border-radius:12px 12px 12px 3px}
+.hl-b{background:var(--blue);transform:rotate(1.2deg);border-radius:12px 3px 12px 12px}
+.lead{font-size:1.12rem;line-height:1.6;max-width:560px;font-weight:500}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+.btn-big{font-family:var(--fd);font-weight:700;font-size:1rem;color:var(--ink);text-decoration:none;display:inline-block;background:var(--yellow);border:3px solid var(--ink);border-radius:16px;padding:14px 26px;cursor:pointer;box-shadow:5px 5px 0 var(--ink);transition:.15s}
+.btn-big.alt{background:var(--pink);color:#fff}
+.btn-big:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+.btn-big:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.scribble{font-family:var(--fh);font-size:1.5rem;font-weight:700;transform:rotate(-3deg);display:inline-block;margin-top:20px}
+
+/* сцена-«подмостки» */
+.stage{background:var(--paper);border:4px solid var(--ink);border-radius:34px 34px 34px 14px;box-shadow:14px 14px 0 rgba(36,20,72,.2);padding:24px}
+.stage-cap{font-family:var(--fh);font-size:1.35rem;margin-bottom:10px}
+.eq{display:flex;gap:6px;align-items:flex-end;height:64px;margin-bottom:20px}
+.eq i{flex:1;border-radius:6px 6px 2px 2px;background:var(--bc);animation:eq 1s ease-in-out infinite alternate;animation-delay:var(--d)}
+@keyframes eq{from{height:14%}to{height:100%}}
+.cast{display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.mate{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:9px 4px 7px;width:56px;box-shadow:4px 4px 0 rgba(36,20,72,.2);transition:.2s;text-decoration:none;color:var(--ink);animation:hop 2.6s ease-in-out infinite;animation-delay:var(--d)}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.mate .mo{font-size:1.5rem;line-height:1}
+.mate b{font-size:.68rem}
+.mate:hover{transform:translateY(-10px) rotate(-5deg) scale(1.08);background:var(--tint)}
+
+/* ===== общие секции ===== */
+.wrap{max-width:1150px;margin:0 auto;padding:70px 22px}
+.sec-head{margin-bottom:36px}
+.sec-head h2{font-weight:900;font-size:clamp(1.7rem,3.6vw,2.6rem);margin:4px 0 8px}
+h2.u{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8'%3E%3Cpath d='M0 5 Q5 0 10 5 T20 5 T30 5 T40 5' fill='none' stroke='%23FF4FA0' stroke-width='3'/%3E%3C/svg%3E") bottom left/auto 8px repeat-x;padding-bottom:14px;display:inline-block}
+.sec-note{font-size:1.05rem;max-width:720px;line-height:1.55;margin:6px 0 0}
+
+/* появление при скролле */
+.rv{opacity:0;transform:translateY(28px)}
+.rv.vis{opacity:1;transform:none;transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+
+/* ===== сказка ===== */
+.skazka{background:#FFF9E6;border-bottom:4px solid var(--ink)}
+.story{display:grid;grid-template-columns:86px 1fr;gap:18px;background:var(--paper);border:3px solid var(--ink);border-left:13px solid var(--c);border-radius:22px;padding:20px 24px;box-shadow:7px 7px 0 rgba(36,20,72,.12);margin-bottom:20px}
+.story.intro{grid-template-columns:1fr;border-left-color:var(--ink);font-family:var(--fd);font-size:1.15rem;font-weight:700}
+.story .face{width:74px;height:74px;border-radius:50%;border:3px solid var(--ink);background:var(--tint);display:grid;place-items:center;font-size:2rem;box-shadow:4px 4px 0 rgba(36,20,72,.15)}
+.story h3{margin:0 0 8px;font-size:1.05rem}
+.story p{margin:0 0 14px;line-height:1.65}
+.contour{background:#fff;border:2.5px solid var(--ink);border-radius:14px;padding:6px 8px 2px;margin-bottom:12px}
+.contour svg{display:block;width:100%;height:74px}
+.contour .base{stroke:rgba(36,20,72,.25);stroke-width:2;stroke-dasharray:5 6}
+.contour .line{fill:none;stroke:var(--c);stroke-width:4.5;stroke-linecap:round}
+.contour .dot{fill:var(--c);stroke:#fff;stroke-width:2.5}
+.c-cap{font-family:var(--fh);font-size:1rem;color:rgba(36,20,72,.65);text-align:right;margin:0 4px 3px 0}
+.listen{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.listen .lbl{font-family:var(--fh);font-size:1.3rem}
+
+/* кнопка-фраза */
+.phr{display:inline-flex;align-items:center;gap:8px;font-family:var(--fb);font-weight:600;font-size:.94rem;background:#fff;color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;box-shadow:3px 3px 0 rgba(36,20,72,.18);transition:.15s}
+.phr:hover{transform:translate(-1px,-2px);box-shadow:5px 6px 0 rgba(36,20,72,.22)}
+.phr:active{transform:translate(2px,2px);box-shadow:0 0 0 rgba(0,0,0,0)}
+.phr .ic{font-size:.85rem}
+.phr.speaking{background:var(--c,var(--yellow));color:#fff;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(36,20,72,.35)}50%{box-shadow:0 0 0 9px rgba(36,20,72,0)}}
+
+/* ===== героини ===== */
+.heroes{background:linear-gradient(180deg,#E9F3FF,#F4FAFF);border-bottom:4px solid var(--ink)}
+.heroes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:26px}
+.hcard{position:relative;background:var(--tint);border:3px solid var(--ink);border-radius:26px 26px 26px 8px;padding:22px;box-shadow:8px 8px 0 rgba(36,20,72,.14);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;gap:12px}
+.hcard:hover{transform:translateY(-8px) rotate(-.6deg);box-shadow:13px 15px 0 rgba(36,20,72,.18)}
+.hc-head{display:flex;align-items:center;gap:12px}
+.hc-num{font-family:var(--fd);font-weight:900;font-size:.95rem;background:var(--c);color:#fff;border:3px solid var(--ink);padding:6px 12px;border-radius:12px 12px 12px 4px;box-shadow:3px 3px 0 var(--ink)}
+.hc-emoji{margin-left:auto;width:58px;height:58px;border-radius:50%;background:#fff;border:3px solid var(--ink);display:grid;place-items:center;font-size:1.7rem;box-shadow:3px 3px 0 rgba(36,20,72,.2)}
+.hcard h3{font-size:1.3rem;margin:0}
+.hc-tag{align-self:flex-start;background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:4px 12px;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.hc-desc{margin:0;line-height:1.55;font-size:.96rem}
+.hc-phrases{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+
+/* ===== сравнения ===== */
+.compare{background:#FFE3F1;border-bottom:4px solid var(--ink)}
+.cmp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:26px}
+.cmp{background:var(--paper);border:3px solid var(--ink);border-radius:24px;padding:22px;box-shadow:8px 8px 0 rgba(36,20,72,.14)}
+.cmp h3{font-size:1.1rem;margin:0 0 4px}
+.cmp>p{margin:0 0 14px;font-size:.98rem}
+.duel{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.side{border:2.5px solid var(--ink);border-radius:16px;padding:14px;background:var(--tint);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.side .who{font-family:var(--fd);font-size:.78rem;background:var(--c);color:#fff;border:2px solid var(--ink);padding:4px 9px;border-radius:9px}
+.side small{font-weight:600}
+.voice{display:flex;gap:24px;flex-wrap:wrap;align-items:center;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:14px 20px;box-shadow:6px 6px 0 rgba(36,20,72,.15);margin-top:28px}
+.voice b{font-size:.95rem}
+.voice label{font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:10px}
+.voice input[type=range]{accent-color:var(--pink);width:130px}
+.voice small{color:rgba(36,20,72,.7);font-size:.82rem}
+
+/* ===== тренажёр ===== */
+.trainer{background:#E4FBE9;border-bottom:4px solid var(--ink)}
+.how{font-family:var(--fh);font-size:1.5rem;margin:0 0 16px}
+.pool{display:flex;flex-wrap:wrap;gap:10px;background:var(--paper);border:3px dashed var(--ink);border-radius:20px;padding:18px;min-height:72px}
+.sort-chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--fb);font-weight:700;font-size:.95rem;background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:9px 15px;cursor:pointer;box-shadow:3px 3px 0 rgba(36,20,72,.18);transition:.15s}
+.sort-chip:hover{transform:translateY(-3px)}
+.sort-chip.sel{background:var(--yellow);transform:scale(1.06) rotate(-1.5deg);box-shadow:0 0 0 4px rgba(36,20,72,.18)}
+.sort-chip.done{opacity:.35;pointer-events:none;text-decoration:line-through}
+.sc-say{cursor:pointer;font-size:.85rem}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:24px}
+.bin{border:3px solid var(--ink);border-radius:18px;background:#fff;min-height:112px;padding:12px;display:flex;flex-direction:column;gap:7px;transition:.15s;cursor:pointer}
+.bin:hover{transform:translateY(-4px);background:var(--tint)}
+.bin.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.bh{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.83rem;flex-wrap:wrap}
+.bn{font-family:var(--fd);background:var(--c);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;font-size:.78rem}
+.mini{font-size:.78rem;font-weight:600;background:var(--tint);border:2px solid var(--ink);border-radius:8px;padding:3px 8px;animation:pop .35s}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+.trainer-msg{font-family:var(--fh);font-size:1.5rem;min-height:1.7em;margin:16px 0 4px}
+.t-progress{font-weight:800;margin-top:12px}
+
+/* ===== викторина ===== */
+.quiz{background:#F1EAFF;border-bottom:4px solid var(--ink)}
+.quiz-box{max-width:780px;margin:0 auto;background:var(--paper);border:3.5px solid var(--ink);border-radius:28px;padding:28px;box-shadow:10px 10px 0 rgba(36,20,72,.15)}
+.q-progress{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.q-count{font-family:var(--fd);font-weight:700}
+.q-dots{display:flex;gap:6px}
+.q-dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:#fff}
+.q-dots i.done{background:var(--green)}
+.q-dots i.cur{background:var(--yellow)}
+.q-score{margin-left:auto;font-weight:800}
+.q-q{font-size:1.3rem;font-weight:800;line-height:1.45;margin:8px 0 20px}
+.q-opts{display:flex;flex-wrap:wrap;gap:10px}
+.q-opt{display:inline-flex;align-items:center;gap:9px;font-family:var(--fb);font-weight:700;font-size:.93rem;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:10px 14px;cursor:pointer;box-shadow:3px 3px 0 rgba(36,20,72,.18);transition:.15s}
+.q-opt .sw{width:15px;height:15px;border-radius:5px;background:var(--c);border:2px solid var(--ink)}
+.q-opt:hover:not(:disabled){transform:translateY(-3px) rotate(-1deg)}
+.q-opt:disabled{cursor:default}
+.q-opt.ok{background:#D9F7E4;box-shadow:0 0 0 4px var(--green)}
+.q-opt.bad{background:#FFE1E1;animation:shake .4s}
+.q-opt.dim{opacity:.4}
+.q-fb{margin-top:18px;font-size:1rem;line-height:1.55;border-left:7px solid var(--green);background:#fff;border-radius:0 14px 14px 0;padding:13px 16px}
+.q-fb.wrong{border-left-color:var(--red)}
+.q-next{margin-top:18px}
+.q-result{text-align:center;padding:10px 0}
+.q-result .big{font-family:var(--fd);font-size:1.9rem;margin:0 0 6px}
+.stars-row{font-size:2rem;letter-spacing:8px;margin:8px 0 12px}
+.q-result p{font-size:1.05rem;margin-bottom:20px}
+
+/* ===== шпаргалка ===== */
+.shpora{background:#FFF3CD}
+.cheat-wrap{overflow-x:auto}
+.cheat{border-collapse:separate;border-spacing:0;width:100%;min-width:760px;background:var(--paper);border:3px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 rgba(36,20,72,.14)}
+.cheat th{font-family:var(--fd);font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;background:var(--ink);color:#FFE85A;padding:13px 14px;text-align:left}
+.cheat td{border-top:2.5px solid rgba(36,20,72,.14);padding:12px 14px;vertical-align:middle;font-size:.94rem}
+.cheat tr:hover td{background:rgba(255,213,46,.22)}
+.ikb{font-family:var(--fd);font-weight:900;background:var(--c);color:#fff;border:2.5px solid var(--ink);padding:4px 10px;border-radius:10px;display:inline-block;white-space:nowrap}
+.mini-c{width:110px}
+.mini-c svg{width:110px;height:44px}
+
+/* ===== футер ===== */
+footer{position:relative;z-index:1;background:var(--ink);color:#FFF3D6;text-align:center;padding:38px 20px}
+.fz{font-size:1.5rem;letter-spacing:10px;margin-bottom:10px}
+footer p{margin:6px auto;max-width:640px;font-size:.9rem;line-height:1.5;color:rgba(255,243,214,.8)}
+
+/* ===== конфетти ===== */
+.cf{position:fixed;width:10px;height:14px;top:-24px;z-index:999;pointer-events:none;animation:fall linear forwards;border:1.5px solid rgba(36,20,72,.35)}
+@keyframes fall{to{transform:translateY(112vh) rotate(720deg)}}
+
+@media(max-width:880px){
+  .scene-inner{grid-template-columns:1fr}
+  .links{display:none}
+  .story{grid-template-columns:60px 1fr}
+  .story .face{width:54px;height:54px;font-size:1.5rem}
+  .duel{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="floaties" aria-hidden="true">
+  <span style="left:4%;top:18%;font-size:3rem;color:#2D6BFF;animation-duration:11s">♪</span>
+  <span style="left:92%;top:12%;font-size:2.4rem;color:#FF4FA0;animation-duration:14s;animation-delay:1s">?</span>
+  <span style="left:88%;top:46%;font-size:3.4rem;color:#00B26B;animation-duration:12s;animation-delay:2s">♫</span>
+  <span style="left:6%;top:58%;font-size:2.6rem;color:#FF7A00;animation-duration:15s">!</span>
+  <span style="left:48%;top:80%;font-size:2.8rem;color:#8A4DFF;animation-duration:13s;animation-delay:.5s">♬</span>
+  <span style="left:70%;top:72%;font-size:2.2rem;color:#00B8C4;animation-duration:10s;animation-delay:1.4s">?</span>
+  <span style="left:22%;top:86%;font-size:3rem;color:#F23547;animation-duration:16s">♪</span>
+  <span style="left:35%;top:8%;font-size:2.2rem;color:#F23547;animation-duration:12s;animation-delay:2.2s">!</span>
+</div>
+
+<header class="nav">
+  <div class="logo"><span class="note">♪</span>ИК-сказка</div>
+  <nav class="links">
+    <a href="#skazka">Сказка</a><a href="#heroes">Героини</a><a href="#compare">Сравнение</a>
+    <a href="#trainer">Игра</a><a href="#quiz">Викторина</a><a href="#shpora">Шпаргалка</a>
+  </nav>
+  <div class="stars-badge" id="starsBadge">⭐ <span id="starsN">0</span></div>
+</header>
+
+<!-- ======= ЗАСТАВКА ======= -->
+<section class="scene">
+  <div class="scene-inner">
+    <div>
+      <span class="kicker">Интерактивный урок · РКИ · 7 интонаций</span>
+      <h1>Сказка об <span class="hl hl-p">интонационных</span> <span class="hl hl-b">конструкциях</span></h1>
+      <p class="lead">В одном учебнике русского языка для иностранцев жили-были семь интонаций: ИК-1, ИК-2, ИК-3, ИК-4, ИК-5, ИК-6 и ИК-7. Познакомься с ними, послушай их голоса и научись слышать русскую интонацию!</p>
+      <div class="cta-row">
+        <a class="btn-big" href="#skazka">📖 Читать сказку</a>
+        <a class="btn-big alt" href="#quiz">🎯 Сразу к викторине</a>
+      </div>
+      <span class="scribble">🔊 включи звук — будет веселее!</span>
+    </div>
+    <div class="stage">
+      <div class="stage-cap">На сцене — семь героинь:</div>
+      <div class="eq" id="eq"></div>
+      <div class="cast" id="cast"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= СКАЗКА ======= -->
+<section class="skazka" id="skazka">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Глава 1</span>
+      <h2 class="u">Сказка о семи интонациях</h2>
+      <p class="sec-note">Читай и нажимай на фразы 🔊 — они зазвучат! Линия в рамке показывает, как движется голос: вверх ↗ и вниз ↘.</p>
+    </div>
+    <div id="story"></div>
+  </div>
+</section>
+
+<!-- ======= ГЕРОИНИ ======= -->
+<section class="heroes" id="heroes">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Глава 2</span>
+      <h2 class="u">Знакомьтесь: семь героинь</h2>
+      <p class="sec-note">● — интонационный центр (ударный слог). Нажми на фразу и послушай характер каждой ИК.</p>
+    </div>
+    <div class="heroes-grid" id="heroesGrid"></div>
+  </div>
+</section>
+
+<!-- ======= СРАВНЕНИЕ ======= -->
+<section class="compare" id="compare">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Тонкости</span>
+      <h2 class="u">Одна фраза — две интонации</h2>
+      <p class="sec-note">Слова одинаковые, а звучание и смысл — разные. Послушай обе!</p>
+    </div>
+    <div class="cmp-grid" id="cmpGrid"></div>
+    <div class="voice rv">
+      <b>🎛️ Настройка голоса:</b>
+      <label>Темп <input type="range" id="vRate" min="0.6" max="1.4" step="0.05" value="1"> <span id="vRateV">1.0</span></label>
+      <label>Тон <input type="range" id="vPitch" min="0.6" max="1.4" step="0.05" value="1"> <span id="vPitchV">1.0</span></label>
+      <small>Звук — синтез речи браузера, лучше всего в Chrome с русским голосом.</small>
+    </div>
+  </div>
+</section>
+
+<!-- ======= ТРЕНАЖЁР ======= -->
+<section class="trainer" id="trainer">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Глава 3 · игра</span>
+      <h2 class="u">Рассели фразы по домикам</h2>
+    </div>
+    <p class="how">Как играть: нажми на фразу → потом на домик-интонацию, где она живёт. 🔊 подскажет звучанием!</p>
+    <div class="pool" id="pool"></div>
+    <div class="bins" id="bins"></div>
+    <div class="trainer-msg" id="tMsg"></div>
+    <div class="t-progress">Собрано: <b id="tDone">0</b> из <span id="tTotal">10</span></div>
+    <p><button class="btn-big" id="tReset" style="background:#fff">↺ Начать заново</button></p>
+  </div>
+</section>
+
+<!-- ======= ВИКТОРИНА ======= -->
+<section class="quiz" id="quiz">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Глава 4 · проверка</span>
+      <h2 class="u">Викторина: кто так говорит?</h2>
+      <p class="sec-note">Прочитай ситуацию и выбери интонацию. За каждый верный ответ — звезда ⭐.</p>
+    </div>
+    <div class="quiz-box rv" id="quizBox">
+      <div class="q-progress">
+        <span class="q-count" id="qCount">1/8</span>
+        <div class="q-dots" id="qDots"></div>
+        <span class="q-score">⭐ <b id="qScoreN">0</b></span>
+      </div>
+      <p class="q-q" id="qQ"></p>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb" hidden></div>
+      <div class="q-next"><button class="btn-big" id="qNext" hidden>Дальше →</button></div>
+    </div>
+    <div class="quiz-box rv" id="qResult" hidden>
+      <div class="q-result">
+        <p class="big" id="rTitle"></p>
+        <div class="stars-row" id="rStars"></div>
+        <p id="rText"></p>
+        <button class="btn-big" id="qRestart">↺ Сыграть ещё раз</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= ШПАРГАЛКА ======= -->
+<section class="shpora" id="shpora">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Шпаргалка</span>
+      <h2 class="u">Всё главное — на одном листе</h2>
+    </div>
+    <div class="cheat-wrap rv">
+      <table class="cheat">
+        <thead><tr><th>ИК</th><th>Характер</th><th>Когда используем</th><th>Пример</th><th>Схема тона</th></tr></thead>
+        <tbody id="cheatBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fz">🔵 🟠 🟢 🟣 🩷 🩵 🔴</div>
+  <p><b>Семь интонаций — семь характеров.</b> Слушай, повторяй и говори по-русски выразительно!</p>
+  <p>По мотивам «Сказки об интонационных конструкциях» из учебника русского языка для иностранцев. Озвучка — синтез речи браузера.</p>
+</footer>
+
+<script>
+/* ================= ДАННЫЕ ================= */
+const HEROES={
+1:{c:'#2D6BFF',t:'#E7EEFF',e:'😌',name:'Рассказчица',tag:'Сообщение',key:'спокойно сообщает, называет',
+ desc:'Всё знала, утверждала и называла. Говорит ровно, спокойно, голос в конце идёт вниз — как точка.',
+ ph:['Это гараж.','Это наш подъезд.'],tts:{p:1,r:.95},
+ d:'M8,34 L72,34 Q84,34 92,50 L100,60 L192,60',dot:[92,50]},
+2:{c:'#FF7A00',t:'#FFF0DE',e:'📣',name:'Командирша',tag:'Обращение и вопрос со словом',key:'обращается, требует, спрашивает «Что? Где? Когда?»',
+ desc:'Важная и категоричная: обращается ко всем, требует и задаёт вопросы с вопросительными словами. Голос резко падает на ударном слове.',
+ ph:['Послушайте! Внимание!','Отойдите! Не мешайте!','Что? Где? Когда?'],tts:{p:1.15,r:1.05},
+ d:'M8,28 L56,28 Q66,28 74,46 L82,66 L192,66',dot:[74,46]},
+3:{c:'#00B26B',t:'#E2F8EC',e:'🌷',name:'Вежливая',tag:'Вопрос без вопросительного слова',key:'вежливый вопрос «да / нет»',
+ desc:'Любознательная, мягкая и очень вежливая. Вопросы без вопросительных слов: голос взлетает на важном слове — и мягко вниз.',
+ ph:['Это гараж?','Это ваш подъезд?','Извините, пожалуйста!'],tts:{p:1.25,r:.98},
+ d:'M8,42 L62,42 Q74,42 82,20 L88,22 Q100,40 112,56 L192,56',dot:[82,20]},
+4:{c:'#8A4DFF',t:'#F1E9FF',e:'🧐',name:'Чиновница',tag:'Официальный вопрос',key:'официальная речь: анкета, документ, экзамен',
+ desc:'Приходит вместо ИК-3 в официальную речь: поучает и задаёт вопросы официальным тоном. Голос поднимается и держится высоко.',
+ ph:['Ваша фамилия?','Ваше имя?','Дважды два четыре?'],tts:{p:.9,r:.85},
+ d:'M8,46 L60,46 Q72,46 82,30 L120,22 L192,16',dot:[188,16]},
+5:{c:'#FF4FA0',t:'#FFE8F3',e:'🤩',name:'Восторженная',tag:'Восхищение',key:'радость, восторг',
+ desc:'Самая восторженная! Две вершины: голос взлетает, чуть опускается — и взлетает снова.',
+ ph:['Как хорошо!'],tts:{p:1.35,r:1},
+ d:'M8,58 Q42,14 76,24 Q98,30 118,14 Q152,26 192,58',dot:[118,14]},
+6:{c:'#00B8C4',t:'#E0F8FA',e:'🤔',name:'Сомневающаяся',tag:'Сомнение, переспрос, воспоминание',key:'сомневается, переспрашивает, вспоминает',
+ desc:'Восхищается сдержанно, часто сомневается, переспрашивает и вспоминает. Голос поднимается — и долго держится наверху.',
+ ph:['Как хорошо! Погода сегодня!','Что вы сказали?','Куда я положила ключи?'],tts:{p:1.1,r:.9},
+ d:'M8,54 Q46,20 88,22 L192,18',dot:[88,22]},
+7:{c:'#F23547',t:'#FFE5E7',e:'😤',name:'Недовольная',tag:'Отрицание и экспрессия',key:'возмущение, отрицание, эмоциональное «да!»',
+ desc:'Ужасный характер: вечно недовольна и всё отрицает. Но иногда ей стыдно — и она эмоционально утверждает! Голос взмывает выше всех.',
+ ph:['Какие вы отличники!','Какой это обед!','Да! Хорошо!'],tts:{p:.85,r:1.05},
+ d:'M8,46 L56,46 Q64,46 70,14 L78,10 Q90,14 102,28 L192,36',dot:[78,10]}
+};
+const BIN_LABEL={1:'Сообщение',2:'Приказ и «Где?»',3:'Вежливый вопрос',4:'Официально',5:'Ура!',6:'Хм… переспрошу',7:'Нет же!'};
+
+const STORY=[
+{n:0,text:'В учебнике русского языка для иностранцев жили семь интонаций.'},
+{n:1,short:['Это гараж.','Это наш подъезд.'],
+ text:'ИК-1 всё знала, утверждала, называла: «Это гараж. Это наш подъезд».'},
+{n:2,short:['Послушайте! Внимание!','Что? Где? Когда?'],
+ text:'ИК-2 считала себя очень важной. Во-первых, она всё время старалась обратить на себя внимание и ко всем обращалась: «Послушайте! Внимание!» Была категорична, требовательна: «Отойдите! Не мешайте!» При этом она все время задавала вопросы с вопросительными словами: «Что? Где? Когда?»'},
+{n:3,short:['Это гараж?','Извините, пожалуйста!'],
+ text:'ИК-3 тоже была любознательна. Она тоже задавала вопросы, но другие, без вопросительных слов: «Это гараж? Это ваш подъезд?» Вообще у неё был мягкий характер. Если ИК-2 была требовательна, то ИК-3 была очень вежлива: «Извините, пожалуйста!»'},
+{n:4,short:['Ваша фамилия?','Ваше имя?'],
+ text:'А ИК-4 любила появляться вместо ИК-3 в официальной речи. Всех поучала. Даже вопросы ИК-4 задавала официальным тоном! «Ваша фамилия? Ваше имя?» ИК-3 спрашивала: «Дважды два четыре?» — а ИК-4: «Дважды два четыре?»'},
+{n:5,short:['Как хорошо!'],
+ text:'ИК-5 была самой восторженной. «Как хорошо!» — любила говорить она.'},
+{n:6,short:['Что вы сказали?','Куда я положила ключи?'],
+ text:'ИК-6 тоже восхищалась, но более сдержанно: «Как хорошо! Погода сегодня!» Она часто стремилась быть немногословной. Ей не хватало уверенности в себе, она сомневалась, переспрашивала: «Что вы сказали?» Кроме того, ИК-6 обладала неважной памятью и часто с трудом что-нибудь вспоминала: «Куда я положила ключи?»'},
+{n:7,short:['Какие вы отличники!','Да! Хорошо!'],
+ text:'Весело, радостно было ИК друг с другом. И жили бы все дружно, не зная хлопот, если бы не ИК-7. У неё был ужасный характер, она вечно была недовольна, постоянно всё отрицала: «Какие вы отличники! Какой это обед!» Правда, иногда ей становилось стыдно за своё поведение. Тогда она, наоборот, принималась утверждать! «Да! Хорошо!» И делала это не спокойно, а эмоционально, экспрессивно.'}
+];
+
+const COMPARE=[
+{title:'«Дважды два четыре?»',note:'Одна и та же фраза — два разных характера!',
+ a:{n:3,cap:'мягкий вопрос другу'},b:{n:4,cap:'официальный вопрос на экзамене'},ph:'Дважды два четыре?'},
+{title:'«Как хорошо!»',note:'Восторг бывает разный.',
+ a:{n:5,cap:'бурный восторг'},b:{n:6,cap:'сдержанное восхищение'},ph:'Как хорошо!'}
+];
+
+const SORTS=[
+{t:'Это гараж.',k:1},{t:'Внимание!',k:2},{t:'Не мешайте!',k:2},
+{t:'Это ваш подъезд?',k:3},{t:'Извините, пожалуйста!',k:3},{t:'Ваше имя?',k:4},
+{t:'Как хорошо!',k:5},{t:'Что вы сказали?',k:6},{t:'Куда я положила ключи?',k:6},
+{t:'Какие вы отличники!',k:7}
+];
+
+const QUESTIONS=[
+{q:'Ты спокойно сообщаешь: «Это наш подъезд.»',a:1},
+{q:'Ты обращаешься ко всем: «Послушайте! Внимание!»',a:2},
+{q:'Ты спрашиваешь с вопросительным словом: «Где гараж?»',a:2},
+{q:'Ты вежливо спрашиваешь без вопросительного слова: «Это ваш подъезд?»',a:3},
+{q:'Ты извиняешься очень вежливо: «Извините, пожалуйста!»',a:3},
+{q:'Секретарь спрашивает официально: «Ваша фамилия?»',a:4},
+{q:'Ты в восторге: «Как хорошо!»',a:5},
+{q:'Ты не расслышал и переспрашиваешь: «Что вы сказали?»',a:6},
+{q:'Ты вспоминаешь и сомневаешься: «Куда я положила ключи?»',a:6},
+{q:'Ты возмущаешься и отрицаешь: «Какой это обед!»',a:7},
+{q:'Ты эмоционально соглашаешься: «Да! Хорошо!»',a:7},
+{q:'Ты утверждаешь спокойно и ровно: «Это гараж.»',a:1}
+];
+
+/* ================= УТИЛИТЫ ================= */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const synth=window.speechSynthesis||null;
+let voice=null;
+function loadVoices(){if(!synth)return;const vs=synth.getVoices();voice=vs.find(v=>/^ru/i.test(v.lang))||null;}
+if(synth){loadVoices();synth.onvoiceschanged=loadVoices;}
+const VOL={rate:1,pitch:1};
+
+let stars=0;
+function addStar(n=1){stars+=n;$('#starsN').textContent=stars;
+ const b=$('#starsBadge');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}
+
+function speak(text,n,el){
+ if(!synth){if(el){el.classList.add('speaking');setTimeout(()=>el.classList.remove('speaking'),1400);}return;}
+ synth.cancel();
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang='ru-RU';if(voice)u.voice=voice;
+ const t=HEROES[n]?HEROES[n].tts:{p:1,r:1};
+ u.rate=Math.min(2,Math.max(.4,t.r*VOL.rate));
+ u.pitch=Math.min(2,Math.max(.3,(t.p||1)*VOL.pitch));
+ if(el){el.classList.add('speaking');
+   u.onend=()=>el.classList.remove('speaking');
+   u.onerror=()=>el.classList.remove('speaking');
+   setTimeout(()=>el.classList.remove('speaking'),7000);}
+ synth.speak(u);
+}
+
+function confetti(n=80,rect){
+ const colors=['#FFD52E','#FF7A00','#00B26B','#2D6BFF','#8A4DFF','#FF4FA0','#00B8C4','#F23547'];
+ for(let i=0;i<n;i++){
+  const d=document.createElement('i');d.className='cf';
+  d.style.left=rect?(rect.left+rect.width*Math.random())+'px':(Math.random()*100)+'vw';
+  d.style.top=rect?rect.top+'px':'-3vh';
+  d.style.background=colors[i%colors.length];
+  d.style.animationDuration=(1.4+Math.random()*1.6)+'s';
+  d.style.animationDelay=(Math.random()*.3)+'s';
+  document.body.appendChild(d);setTimeout(()=>d.remove(),3800);
+ }
+}
+
+function contourSVG(n){const h=HEROES[n];
+ return `<svg viewBox="0 0 200 80" aria-hidden="true"><line class="base" x1="8" y1="50" x2="192" y2="50"/><path class="line" d="${h.d}"/><circle class="dot" cx="${h.dot[0]}" cy="${h.dot[1]}" r="5.5"/></svg>`;}
+function playContour(scope){
+ const p=scope&&scope.querySelector('.line');if(!p)return;
+ try{const L=p.getTotalLength();p.style.strokeDasharray=L;
+  p.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:1200,easing:'ease-in-out'});}catch(e){}
+}
+function phrBtn(t,n){return `<button class="phr" style="--c:${HEROES[n].c}" data-say="${t}" data-n="${n}"><span class="ic">🔊</span>${t}</button>`;}
+
+/* клик по любой озвученной фразе */
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-say]');if(!b||b.classList.contains('sort-chip'))return;
+ speak(b.dataset.say,+b.dataset.n,b);
+ playContour(b.closest('.story, .hcard, .side'));
+});
+
+/* ================= ЗАСТАВКА ================= */
+(function(){
+ const eq=$('#eq'),cols=['#2D6BFF','#FF7A00','#00B26B','#8A4DFF','#FF4FA0','#00B8C4','#F23547'];
+ for(let i=0;i<26;i++){const b=document.createElement('i');
+  b.style.setProperty('--bc',cols[i%7]);b.style.setProperty('--d',(Math.random()*1.2)+'s');
+  b.style.animationDuration=(0.7+Math.random()*0.7)+'s';eq.appendChild(b);}
+ const cast=$('#cast');
+ Object.keys(HEROES).forEach((n,i)=>{const h=HEROES[n];
+  cast.insertAdjacentHTML('beforeend',
+  `<a class="mate" href="#hero-${n}" style="--tint:${h.t};--d:${i*.18}s" title="${h.name}"><span class="mo">${h.e}</span><b>ИК-${n}</b></a>`);});
+})();
+
+/* ================= СКАЗКА ================= */
+(function(){
+ const box=$('#story');
+ STORY.forEach(s=>{
+  if(s.n===0){box.insertAdjacentHTML('beforeend',`<article class="story intro rv"><p>${s.text}</p></article>`);return;}
+  const h=HEROES[s.n];
+  box.insertAdjacentHTML('beforeend',
+  `<article class="story rv" style="--c:${h.c};--tint:${h.t}">
+    <div class="face">${h.e}</div>
+    <div>
+      <h3>ИК-${s.n} · ${h.name}</h3>
+      <p>${s.text}</p>
+      <div class="contour" style="--c:${h.c}">${contourSVG(s.n)}<p class="c-cap">линия — движение голоса: ↗ взлёт, ↘ падение, ● — центр</p></div>
+      <div class="listen"><span class="lbl">послушай →</span>${s.short.map(p=>phrBtn(p,s.n)).join('')}</div>
+    </div>
+  </article>`);
+ });
+})();
+
+/* ================= ГЕРОИНИ ================= */
+(function(){
+ const g=$('#heroesGrid');
+ Object.keys(HEROES).forEach((n,i)=>{const h=HEROES[n];
+  g.insertAdjacentHTML('beforeend',
+  `<article class="hcard rv" id="hero-${n}" style="--c:${h.c};--tint:${h.t}">
+    <div class="hc-head"><span class="hc-num">ИК-${n}</span><span class="hc-emoji">${h.e}</span></div>
+    <h3>${h.name}</h3>
+    <span class="hc-tag">${h.tag}</span>
+    <p class="hc-desc">${h.desc}</p>
+    <div class="contour" style="--c:${h.c}">${contourSVG(n)}<p class="c-cap">● — интонационный центр</p></div>
+    <div class="hc-phrases">${h.ph.map(p=>phrBtn(p,n)).join('')}</div>
+  </article>`);
+ });
+})();
+
+/* ================= СРАВНЕНИЕ ================= */
+(function(){
+ const g=$('#cmpGrid');
+ COMPARE.forEach(c=>{
+  const side=o=>{const h=HEROES[o.n];return `
+   <div class="side" style="--c:${h.c};--tint:${h.t}">
+     <span class="who">ИК-${o.n} · ${h.name} ${h.e}</span>
+     <div class="contour" style="--c:${h.c}">${contourSVG(o.n)}</div>
+     ${phrBtn(c.ph,o.n)}
+     <small>${o.cap}</small>
+   </div>`;};
+  g.insertAdjacentHTML('beforeend',
+  `<div class="cmp rv"><h3>${c.title}</h3><p>${c.note}</p>
+   <div class="duel">${side(c.a)}${side(c.b)}</div></div>`);
+ });
+})();
+
+/* ================= ТРЕНАЖЁР ================= */
+let sortSel=null,doneCount=0;
+function renderTrainer(){
+ doneCount=0;sortSel=null;$('#tDone').textContent=0;$('#tMsg').textContent='';
+ const pool=$('#pool'),bins=$('#bins');pool.innerHTML='';bins.innerHTML='';
+ $('#tTotal').textContent=SORTS.length;
+ shuffle(SORTS).forEach((s,i)=>{
+  pool.insertAdjacentHTML('beforeend',
+  `<button class="sort-chip" data-k="${s.k}" data-t="${s.t}"><span class="sc-say" data-say="${s.t}" data-n="${s.k}">🔊</span>${s.t}</button>`);});
+ Object.keys(HEROES).forEach(n=>{const h=HEROES[n];
+  bins.insertAdjacentHTML('beforeend',
+  `<div class="bin" data-k="${n}" style="--c:${h.c};--tint:${h.t}">
+     <div class="bh"><span class="bn">ИК-${n}</span>${BIN_LABEL[n]} ${h.e}</div>
+   </div>`);});
+}
+$('#pool').addEventListener('click',e=>{
+ const sp=e.target.closest('.sc-say');
+ if(sp){e.stopPropagation();speak(sp.dataset.say,+sp.dataset.n,sp);return;}
+ const ch=e.target.closest('.sort-chip');
+ if(ch&&!ch.classList.contains('done')){
+  $$('.sort-chip').forEach(c=>c.classList.remove('sel'));
+  ch.classList.add('sel');sortSel=ch;
+  $('#tMsg').textContent='Теперь нажми на домик с нужной ИК!';}
+});
+$('#bins').addEventListener('click',e=>{
+ const bin=e.target.closest('.bin');if(!bin)return;
+ if(!sortSel){$('#tMsg').textContent='Сначала выбери фразу сверху 👆';return;}
+ const k=+bin.dataset.k,need=+sortSel.dataset.k;
+ if(k===need){
+  bin.insertAdjacentHTML('beforeend',`<span class="mini" style="--tint:${HEROES[k].t}">${sortSel.dataset.t}</span>`);
+  speak(sortSel.dataset.t,k);
+  sortSel.classList.add('done');sortSel.classList.remove('sel');
+  addStar();doneCount++;confetti(12,bin.getBoundingClientRect());
+  sortSel=null;$('#tDone').textContent=doneCount;
+  $('#tMsg').textContent=doneCount===SORTS.length
+    ?'Ура! Все фразы нашли свои домики! 🎉'
+    :`Верно! Это ${HEROES[k].name}. ⭐`;
+  if(doneCount===SORTS.length)confetti(120);
+ }else{
+  bin.classList.add('shake');setTimeout(()=>bin.classList.remove('shake'),450);
+  $('#tMsg').textContent=`Не угадал! Подсказка: так говорит ${HEROES[need].name} (ИК-${need}) ${HEROES[need].e}`;
+ }
+});
+$('#tReset').addEventListener('click',renderTrainer);
+renderTrainer();
+
+/* ================= ВИКТОРИНА ================= */
+let qList=[],qIdx=0,qScore=0,qAnswered=false;
+function startQuiz(){
+ qList=shuffle(QUESTIONS).slice(0,8);qIdx=0;qScore=0;
+ $('#qScoreN').textContent=0;
+ $('#qResult').hidden=true;$('#quizBox').hidden=false;
+ renderQ();
+}
+function renderQ(){
+ qAnswered=false;const q=qList[qIdx];
+ $('#qCount').textContent=(qIdx+1)+'/'+qList.length;
+ $('#qDots').innerHTML=qList.map((_,i)=>`<i class="${i<qIdx?'done':i===qIdx?'cur':''}"></i>`).join('');
+ $('#qQ').textContent=q.q;
+ $('#qOpts').innerHTML=Object.keys(HEROES).map(n=>
+  `<button class="q-opt" data-n="${n}" style="--c:${HEROES[n].c}"><span class="sw"></span>ИК-${n} ${HEROES[n].e} ${HEROES[n].name}</button>`).join('');
+ $('#qFb').hidden=true;$('#qNext').hidden=true;
+}
+const explain=n=>`${HEROES[n].name}: ${HEROES[n].key}.`;
+$('#qOpts').addEventListener('click',e=>{
+ const b=e.target.closest('.q-opt');if(!b||qAnswered)return;
+ qAnswered=true;const q=qList[qIdx],chosen=+b.dataset.n,ok=chosen===q.a;
+ $$('.q-opt').forEach(o=>{o.disabled=true;if(+o.dataset.n!==q.a)o.classList.add('dim');});
+ const good=ok?b:$(`.q-opt[data-n="${q.a}"]`);good.classList.add('ok');
+ if(!ok)b.classList.add('bad');
+ const fb=$('#qFb');fb.hidden=false;fb.classList.toggle('wrong',!ok);
+ if(ok){qScore++;$('#qScoreN').textContent=qScore;addStar();
+  confetti(24,b.getBoundingClientRect());
+  const m=q.q.match(/«([^»]+)»/);if(m)speak(m[1],q.a);
+  fb.innerHTML=`✅ Верно! ИК-${q.a} — ${explain(q.a)}`;
+ }else{
+  fb.innerHTML=`❌ Не совсем. Правильный ответ — <b>ИК-${q.a}</b>. ${explain(q.a)}`;
+ }
+ const nx=$('#qNext');nx.hidden=false;
+ nx.textContent=qIdx===qList.length-1?'К результатам! 🏁':'Дальше →';
+});
+$('#qNext').addEventListener('click',()=>{
+ qIdx++;
+ if(qIdx>=qList.length){
+  $('#quizBox').hidden=true;const r=$('#qResult');r.hidden=false;
+  $('#rStars').textContent='⭐'.repeat(qScore)+'☆'.repeat(qList.length-qScore);
+  $('#rTitle').textContent=qScore+' из '+qList.length;
+  let txt;
+  if(qScore===qList.length)txt='Идеально! Ты чувствуешь интонацию как настоящая ИК! 🎉';
+  else if(qScore>=6)txt='Отлично! Ещё чуть-чуть — и будет идеально. Послушай героинь и попробуй снова!';
+  else if(qScore>=4)txt='Хорошее начало! Перечитай сказку, послушай фразы и сыграй ещё раз.';
+  else txt='Не расстраивайся! Вернись к сказке, послушай голоса семи героинь — и всё получится.';
+  $('#rText').textContent=txt;
+  if(qScore>=6)confetti(140);
+ }else renderQ();
+});
+$('#qRestart').addEventListener('click',startQuiz);
+startQuiz();
+
+/* ================= ШПАРГАЛКА ================= */
+(function(){
+ const tb=$('#cheatBody');
+ Object.keys(HEROES).forEach(n=>{const h=HEROES[n];
+  tb.insertAdjacentHTML('beforeend',
+  `<tr>
+    <td><span class="ikb" style="--c:${h.c}">ИК-${n}</span></td>
+    <td><b>${h.e} ${h.name}</b></td>
+    <td>${h.key}</td>
+    <td>${phrBtn(h.ph[0],n)}</td>
+    <td><div class="mini-c" style="--c:${h.c}">${contourSVG(n)}</div></td>
+  </tr>`);});
+})();
+
+/* ================= настройка голоса ================= */
+$('#vRate').addEventListener('input',e=>{VOL.rate=+e.target.value;$('#vRateV').textContent=VOL.rate.toFixed(2);});
+$('#vPitch').addEventListener('input',e=>{VOL.pitch=+e.target.value;$('#vPitchV').textContent=VOL.pitch.toFixed(2);});
+
+/* ================= появление при скролле ================= */
+const io=new IntersectionObserver(es=>es.forEach(en=>{
+ if(en.isIntersecting){en.target.classList.add('vis');io.unobserve(en.target);}
+}),{threshold:.12});
+$$('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*70+'ms';io.observe(el);});
+</script>
+</body>
+</html>
